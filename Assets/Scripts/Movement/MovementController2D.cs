@@ -1,7 +1,5 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 // This component can be used to move a character that should be affected by gravity
 // Use with the components CharacterController and PlayerInput.
@@ -10,15 +8,13 @@ public class MovementController2D : MonoBehaviour
 { 
     [SerializeField] private float speed = 2f;
     [SerializeField] private float jumpForce = 5f;
-    [SerializeField] private float gravityForce = -1.0f;
     [SerializeField] private CharacterController controller;
-    [SerializeField] private ParticleSystem jumpParticle = null;
 
     private Vector2 moveInput;
     private bool jumpInput;
     private Vector3 velocity;
     private bool wasGrounded;
-    public Animator animator;
+    
     
     void Update()
     {
@@ -46,13 +42,9 @@ public class MovementController2D : MonoBehaviour
         else if (wasGrounded == false && isGrounded == true)
         {
             // Has landed. Play landing sound and/or trigger landing animation etc
-            jumpParticle.Play();
         }
         
         wasGrounded = isGrounded;
-
-        animator.SetFloat("Speed", controller.velocity.magnitude);
-
     }
 
     private void ApplyGravity()
@@ -60,7 +52,7 @@ public class MovementController2D : MonoBehaviour
         // Applies a set gravity for when player is grounded
         if (controller.isGrounded && velocity.y < 0.0f)
         {
-            velocity.y = gravityForce;
+            velocity.y = -1.0f;
         }
         // Updates fall speed with gravity if object isn't grounded
         else
@@ -90,7 +82,6 @@ public class MovementController2D : MonoBehaviour
         {
             Debug.Log("Jump!");
             jumpInput = true;
-            jumpParticle.Play();
             // Jumps: Set animation parameters etc here
         }
     }
