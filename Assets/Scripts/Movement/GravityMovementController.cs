@@ -12,7 +12,10 @@ public class GravityMovementController : MonoBehaviour
     private Vector2 moveInput;
     private Vector3 velocity;
     private bool wasGrounded;
-    
+    public Animator animator;
+
+
+
     void Update()
     {
         ApplyGravity();
@@ -35,6 +38,9 @@ public class GravityMovementController : MonoBehaviour
         }
 
         wasGrounded = isGrounded;
+
+        animator.SetFloat("Speed", controller.velocity.magnitude);
+
     }
     
     private void ApplyGravity()
